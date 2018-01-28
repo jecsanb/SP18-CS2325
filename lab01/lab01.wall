@@ -1,12 +1,14 @@
 #*********************************************************
 # FILE: lab01.wall
 #
-# PURPOSE: <complete with general statement of program's
-#           purpose>
+# PURPOSE: This program calculates the sum of the first
+# N numbers.
+# The running sum is stored in RA and then writen to [Sum]
+#           
 #
-# PROGRAMMER:  <Student's name>
+# PROGRAMMER:  Jecsan Blanco
 #
-# DATE COMPLETED: <enter date in form Month day,2018>
+# DATE COMPLETED: 01 27,2018
 #
 #*********************************************************
 
@@ -17,3 +19,18 @@ Sum:            bss    1
 
                 org    0x00
 main:           load   R1,-1     # constant -1
+                store  [Sum],0   # Sum < - 0
+                load   R2,[N]    # i <- N
+                xor    RA,RA,RA  # RA < - 0
+Do:             add    RA,R2,RA  #do: 
+
+                jmpeq  R2,Done   #while i != 0
+                add    R2,R2,R1  # i--
+                jmp    Do
+Done:
+
+                store  [Sum],RA
+                halt
+
+                
+
