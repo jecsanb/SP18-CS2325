@@ -19,7 +19,8 @@ Sum:            bss    1
 
                 org    0x00
 main:           load   R1,-1     # constant -1
-                store  [Sum],0   # Sum < - 0
+                load   R0,0
+                store  [Sum],R0  # Sum < - 0
                 load   R2,[N]    # i <- N
                 xor    RA,RA,RA  # RA < - 0
 Do:             add    RA,R2,RA  #do: 
