@@ -24,12 +24,12 @@ main:           load   R1,-1     # constant -1
                 store  [Sum],RA  # Sum < - 0
                 load   R2,[N]    # i <- N
 
-dowWhile:       add    RA,R2,RA   
+doWhile:       add    RA,R2,RA   
 
                 add    R2,R2,R1  # i--
                 jmpeq  R2=R0,done   #while i != 0
                 jmp    doWhile
-Done:
+done:
 
                 store  [Sum],RA
                 halt
