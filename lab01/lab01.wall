@@ -19,14 +19,16 @@ Sum:            bss    1
 
                 org    0x00
 main:           load   R1,-1     # constant -1
+                xor    R0,R0,R0  # RA < - 0
                 xor    RA,RA,RA  # RA < - 0
                 store  [Sum],RA  # Sum < - 0
                 load   R2,[N]    # i <- N
-Do:             add    RA,R2,RA  #do: 
 
-                jmpeq  R2,Done   #while i != 0
+dowWhile:       add    RA,R2,RA   
+
                 add    R2,R2,R1  # i--
-                jmp    Do
+                jmpeq  R2=R0,done   #while i != 0
+                jmp    doWhile
 Done:
 
                 store  [Sum],RA
