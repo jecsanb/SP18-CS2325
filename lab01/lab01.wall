@@ -1,0 +1,19 @@
+#*********************************************************
+# FILE: lab01.wall
+#
+# PURPOSE: <complete with general statement of program's
+#           purpose>
+#
+# PROGRAMMER:  <Student's name>
+#
+# DATE COMPLETED: <enter date in form Month day,2018>
+#
+#*********************************************************
+
+                sip    main
+                org    0x50
+N:              db     10
+Sum:            bss    1
+
+                org    0x00
+main:           load   R1,-1     # constant -1
