@@ -10,6 +10,7 @@
 #           is to upcase all the lower-case alpha
 #           characters in the string and then 
 #           output those characters.
+# Secondary Purpose writen by: Jecsan Blanco
 # ********************************************************
 
             sip   main
