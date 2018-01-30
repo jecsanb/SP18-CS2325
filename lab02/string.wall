@@ -1,0 +1,38 @@
+# ********************************************************
+# FILE:  string.wall
+#
+# PURPOSE:  This program is designed to process a
+#           string (an array of bytes to be
+#           interpreted as ASCII characters to be
+#           displayed on the console.
+#
+#           A secondary purpose of this program
+#           is to upcase all the lower-case alpha
+#           characters in the string and then 
+#           output those characters.
+# ********************************************************
+
+            sip   main
+# ********************************************************
+# Data segment
+# ********************************************************
+            org   0x60
+message:    db    "Assembler is fun !?",0
+
+
+# ********************************************************
+# Code segment
+# ********************************************************
+            org  0x10
+main:
+            xor   R0,R0,R0       # comparand set to 0
+            load  R1,1           # constant 1
+            load  RA,message     # ptr = &message
+            iload RB,[RA]        # load *ptr
+while:
+            jmpEQ RB=R0,endLoop
+            move  RF,RB          # copy char to display reg
+            add   RA,RA,R1       # ptr += 1
+            iload RB,[RA]
+            jmp   while
+endLoop:    halt
