@@ -15,9 +15,10 @@
         sip main
 #*********************************************************
             org 0x00
-Numbers:    db  0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08
-            db  0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0D,0x80
-N:          db  0x10
+Numbers:    db  0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08 #1 - 8
+            db  0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0D,0x80 #9 - 15, 128
+N:          db  0x10                                    #16
+
 Sum1:       bss 1
 Sum2:       bss 1
         
@@ -28,6 +29,14 @@ Sum2:       bss 1
 main:
             load R1,1                   #constant 1
             xor  R2,R2,R2               #R3 will hold pointer into the 
-                                        #into the array.
+                                        #into the array
+                                        
+            load RA,0XFF                #load bit to toggle mask of all 1's
+            xor  RB,RB,RB               # zero running sum (positives)
+            xor  RC,RC,RC               # zero running sum (negatives) 
 
+while:      
+
+endWhile:
+            
             halt
