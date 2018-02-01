@@ -27,16 +27,22 @@ Sum2:       bss 1
 #*********************************************************
             org 0x40
 main:
-            load R1,1                   #constant 1
-            xor  R2,R2,R2               #R3 will hold pointer into the 
-                                        #into the array
-                                        
-            load RA,0XFF                #load bit to toggle mask of all 1's
+            load R1,1                   # constant 1
+            load R0,[N]                 # load len(Numbers)           
+            load R3,Numbers             # R3 will hold pointer into the array
+            load RA,0XFF                # load bit to toggle mask of all 1's   
+                              
+            xor  R2,R2,R2               # zero the counter
             xor  RB,RB,RB               # zero running sum (positives)
             xor  RC,RC,RC               # zero running sum (negatives) 
+            
 
-while:      
 
+
+
+while:      jmpeq R2=R0,endWhile        #    
+            add   R2,R2,R1              # counter ++
+            jmp   while
 endWhile:
             
             halt
