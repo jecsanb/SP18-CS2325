@@ -1,0 +1,58 @@
+# ********************************************************
+# FILE:  string.wall
+#
+# PURPOSE:  This program is designed to process a
+#           string (an array of bytes to be
+#           interpreted as ASCII characters to be
+#           displayed on the console.
+#
+#           A secondary purpose of this program
+#           is to upcase all the lower-case alpha
+#           characters in the string and then
+#           output those characters.
+#
+# Secondary Purpose writen by:
+#           Jecsan Blanco
+# ********************************************************
+
+            sip   main
+# ********************************************************
+# Data segment
+# ********************************************************
+            org   0x60
+message:    db    "Assembler is fun !?",0
+
+
+# ********************************************************
+# Code segment
+# ********************************************************
+            org  0x10
+main:
+            xor   R0,R0,R0       # comparand set to 0
+            load  R1,1           # constant 1
+            load  RA,message     # ptr = &message
+            iload RB,[RA]        # load *ptr
+            load  RC,0x20        #load the mask for case toggle.
+while:
+            jmpEQ RB=R0,endLoop
+
+
+            load  R0,0X61        #load char 'a'
+            JMPLT RB<R0,skip     #compare against 'a'
+            JMPEQ RB=R0,toggle   # eq to 'a'
+
+            load  R0,0x7A        #load char 'z'
+            JMPLT RB<R0,toggle   #compare against 'z', is less than 'z'
+            JMPEQ RB=R0,toggle   # eq to 'z' so go toggle.
+
+            jmp   skip           # char not between or eq 'a' and 'z'
+
+toggle:     xor   RB,RB,RC       # case toggle
+
+skip:       xor   R0,R0,R0       # rest used comparand
+
+            move  RF,RB          # copy char to display reg
+            add   RA,RA,R1       # ptr += 1
+            iload RB,[RA]
+            jmp   while
+endLoop:    halt

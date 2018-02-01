@@ -1,0 +1,57 @@
+
+LAB 03
+
+The Problem:  Write an assembly language program for the WTAMU assembLy Language (WALL) simulator that completes discussion in class on 02/01/2018. 
+
+The program is to sum all the values in an array Numbers and store that sum in Sum1.  Then the program is negate (actually store the negated values back in memory).  Finally, the program is to sum the array of negated values and store that sum in Sum1.  This program should have three loops for processing the array.
+
+ The array Numbers should hold the sixteen values: 0x01, 0x02, 0x01, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, and 0x80. and should be defined first, followed by N which sholuld value 0x10, followed by the reservation of one byte for Sum1 and a second reservation of one byte for Sum2.  The first sum should have value 0xF8 which is -8.  Obviously, it follows that the second sum should be 0x08 which is +8.  
+
+Specifics: 
+
+    Your program should be developed and saved in the file lab03.wall.    
+    If you use the editor accompanying the machine simulator, ensure that you have selected a monospaced font and that you have selected 16 as the font scaling. 
+    Your program structure MUST include the below commentary prologue.  Everywhere you see <  with some text >, you should replace < with some text > with appropriate information.  In addition, you should have documentation that clearly shows the data segment and the code segment.  Take care that the code segment doesn't overwrite the data segment.
+
+    In the program, the data segment should start at address 0x00.  The code segment should start at address 0x40.
+
+#*********************************************************
+# FILE: lab03.wall
+#
+# PURPOSE: <complete with general statement of program's
+#           purpose>
+#
+# PROGRAMMER:  <Student's name>
+#
+# DATE COMPLETED: <enter date in form Month day,2018>
+#
+#*********************************************************
+
+Pseudo Code Algorithm:
+
+     Sum1 = 0
+     index = 0
+     while index < N
+          Sum1 += Numbers[index]
+          index += 1
+     end while
+     store Sum1
+
+     index = 0
+     while index < N
+          Numbers[index] = -Numbers[index]
+          index += 1
+     end while
+
+     Sum2 = 0
+     index = 0
+     while index < N
+          Sum2 += Numbers[index]
+          index += 1
+     end while
+     store Sum2
+
+     halt
+
+
+Submission:  The only submission for this lab is the file lab03.txt which is a hard link to the file named lab03.wall..

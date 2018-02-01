@@ -1,0 +1,45 @@
+
+The Problem:  Write an assembly language program for the WTAMU assembLy Language (WALL) simulator that calculates and stores the sum of the first N integers.  
+
+Specifics: 
+
+    Your program should be developed and saved in the file lab01.wall. 
+    If you use the editor accompanying the machine simulator, ensure that you have selected a monospaced font and that you have selected 16 as the font scaling. 
+    In your program, use R1 to hold the constant -1.  Handle your running sum in register RA. Store the result in memory location Sum. 
+    Use R2 to hold the loop control variable.
+    Your program structure MUST match the below partial implementation.  Everywhere you see <  with some text >, you should replace < with some text > with appropriate information.
+
+NOTE:  Below is copyable/pastable.
+
+#*********************************************************
+# FILE: lab01.wall
+#
+# PURPOSE: <complete with general statement of program's
+#           purpose>
+#
+# PROGRAMMER:  <Student's name>
+#
+# DATE COMPLETED: <enter date in form Month day,2018>
+#
+#*********************************************************
+
+                sip    main
+                org    0x50
+N:              db     10
+Sum:            bss    1
+
+                org    0x00
+main:           load   R1,-1     # constant -1
+
+Submission:  The only submission for this lab is the file lab01.wall.
+
+The algorithm you must implement is following where the symbol <- is the assignment operator:   
+
+    N <- 10
+    Sum <- 0
+    i <- N
+    do:
+        Sum <- Sum + i
+        i <- i - 1
+    while i != 0
+    Store Sum
