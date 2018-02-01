@@ -1,11 +1,33 @@
 #*********************************************************
 # FILE: lab03.wall
 #
-# PURPOSE: <complete with general statement of program's
-#           purpose>
+# PURPOSE:  This program sums the numbers in the array Numbers
+#           then it negates them and adds them again. 
 #
-# PROGRAMMER:  <Student's name>
+#           The first result should be -8 and the second result 
+#           should be 8.
 #
-# DATE COMPLETED: <enter date in form Month day,2018>
+# PROGRAMMER:  Jecsan Blanco
+#
+# DATE COMPLETED: <>
 #
 #*********************************************************
+        sip main
+#*********************************************************
+            org 0x00
+Numbers:    db  0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08
+            db  0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0D,0x80
+N:          db  0x10
+Sum1:       bss 1
+Sum2:       bss 1
+        
+#*********************************************************
+#Code segments
+#*********************************************************
+            org 0x40
+main:
+            load R1,1                   #constant 1
+            xor  R2,R2,R2               #R3 will hold pointer into the 
+                                        #into the array.
+
+            halt
