@@ -41,7 +41,7 @@ while:
             JMPLT RB<R0,skip     #compare against 'a'
             JMPEQ RB=R0,toggle   # eq to 'a'
 
-            load  R0,0x7A        #load char 'z' so go  toggle
+            load  R0,0x7A        #load char 'z'
             JMPLT RB<R0,toggle   #compare against 'z', is less than 'z'
             JMPEQ RB=R0,toggle   # eq to 'z' so go toggle.
 
