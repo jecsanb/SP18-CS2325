@@ -37,24 +37,52 @@ main:
                               
             xor  R8,R8,R8               # zero the counter
             xor  RA,RA,RA               # zero running sum (positives)
-            xor  RB,RB,RB               # zero running sum (negatives) 
             
-while:      jmpeq R8=R0,endWhile        #    
+#sum the positive numbers
+whileP:      jmpeq R8=R0,endWhileP      #    
     
             iload R9,[R2]               # load the number.
 
             add   RA,RA,R9              # SUM Positive
-             
-  
-            xor   R9,R9,R3              # Negate
-            add   R9,R9,R1
-   
-            add   RB,RB,R9              # SUM Negative
           
             add   R8,R8,R1              # counter ++
             add   R2,R2,R1              # numbers[i++]
-            jmp   while
-endWhile:
+            jmp   whileP
+endWhileP:
             store [Sum1],RA
-            store [Sum2],RB         
+
+#negate and store the numbers.
+            load R2,Numbers             # R2 will hold pointer into the array
+            xor  R8,R8,R8               # zero the counter
+
+whileN:      jmpeq R8=R0,endWhileN        #    
+    
+            iload R9,[R2]               # load the number.
+
+            xor   R9,R9,R3              # Negate
+            add   R9,R9,R1
+            istore [R2],R9               # store
+
+            add   R8,R8,R1              # counter ++
+            add   R2,R2,R1              # numbers[i++]
+            jmp   whileN
+endWhileN:
+
+#sum the new negatives 
+#
+            load R2,Numbers             # R2 will hold pointer into the array
+            xor  R8,R8,R8               # zero the counter
+            xor  RA,RA,RA               # zero running sum (negatives) 
+whileSN:      jmpeq R8=R0,endWhileSN      #    
+    
+            iload R9,[R2]               # load the number.
+
+            add   RA,RA,R9              # SUM
+          
+            add   R8,R8,R1              # counter ++
+            add   R2,R2,R1              # numbers[i++]
+            jmp   whileSN
+endWhileSN:
+
+            store [Sum2],RA        
             halt
