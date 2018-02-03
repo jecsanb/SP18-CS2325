@@ -2,22 +2,23 @@
 # FILE: lab03.wall
 #
 # PURPOSE:  This program sums the numbers in the array Numbers
-#           then it negates them and adds them again. 
+#           then it negates them and sums them.
 #
-#           The first result should be -8 and the second result 
-#           should be 8.
+#           The first result should be 0xF8 and the second result 
+#           should be 0x08.
 #
 # PROGRAMMER:  Jecsan Blanco
 #
-# DATE COMPLETED: <>
+# DATE COMPLETED: 01/03/18
+#
 #
 #*********************************************************
         sip main
 #*********************************************************
             org 0x00
-Numbers:    db  0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08 #1 - 8
-            db  0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,0x80 #9 - 15, 128
-N:          db  0x10                                    #16
+Numbers:    db  0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08 
+            db  0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,0x80 
+N:          db  0x10                                  
 
 Sum1:       bss 1
 Sum2:       bss 1
@@ -32,25 +33,26 @@ main:
             load R1,1                   # constant 1        
             load R2,Numbers             # R2 will hold pointer into the array
 
-            load R3,0XFF                # load bit to toggle mask of all 1's   
+            load R3,0XFF                # load bit toggle mask
                               
             xor  R8,R8,R8               # zero the counter
             xor  RA,RA,RA               # zero running sum (positives)
             xor  RB,RB,RB               # zero running sum (negatives) 
             
 while:      jmpeq R8=R0,endWhile        #    
-            iload R9,[R2]
+    
+            iload R9,[R2]               # load the number.
 
-            add   RA,RA,R9              #SUM Positive
+            add   RA,RA,R9              # SUM Positive
              
   
-            xor   R9,R9,R3              #Negate
+            xor   R9,R9,R3              # Negate
             add   R9,R9,R1
    
-            add   RB,RB,R9              #SUM Negative
+            add   RB,RB,R9              # SUM Negative
           
             add   R8,R8,R1              # counter ++
-            add   R2,R2,R1              # nUMBERS[I++]
+            add   R2,R2,R1              # numbers[i++]
             jmp   while
 endWhile:
             store [Sum1],RA
