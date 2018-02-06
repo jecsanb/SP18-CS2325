@@ -1,0 +1,7 @@
+Objective:  Afford students an opportunity to demonstrate an understanding of how to implement iteration in assembly language.
+
+The Problem:  Develop a WALL machine assembly language program that calculates the sum of all the even integers in the range between 0 and N as well as the sum of all the odd integers in the range between 0 and N.  Note that if we then add these two sums together, we will have a value that is equal to the sum of all the integers between 0 and N.  You are to not only calculate all three of these sums, but you are also to store them in memory in the appropriate variable. Calculate the third sum by adding the first two sums together.
+
+Details:  Note below a shell of a program to get you started.  You must fill in your information where appropriate and you MUST leave the data segment of the program where it is defined below.  Any place you see <   >, that means that you must provide information there.  However, remove the < > placeholder brackets.
+
+Submission:  You are to submit the file lab04.txt which is developed in the file lab04.wall.  Be sure it has been created using a good text editor using a monospaced font.  Be sure to do enough research/math to fill in the ??? for the largest value of N.  

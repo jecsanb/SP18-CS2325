@@ -1,0 +1,28 @@
+# ***********************************************
+# FILE:         lab04.txt
+# PURPOSE:      Calculates teh sum of all even integers
+# in the range between 0 and N
+#
+#
+# WRITTEN BY:   Jecsan Blanco
+# DATE:         
+#*************************************************          
+
+            sip    main         # set initial IP to address main
+# ************************************************
+# Data Segment
+# ************************************************
+            org    0x80
+N:          db     10           # your program should work for arbitrary positive values
+                                # <???> is the largest value of N that will not cause overflow
+SumOdd:     bss    1
+SumEven:    bss    1
+SumAll:     bss    1
+
+# ************************************************
+# Code Segment
+# ************************************************
+            org    0x00
+main:     
+
+            halt
