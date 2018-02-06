@@ -1,7 +1,7 @@
 # ***********************************************
 # FILE:         lab04.txt
-# PURPOSE:      Calculates teh sum of all even integers
-# in the range between 0 and N
+# PURPOSE:      Calculates the sum of all even integers
+# and the odds betwee  0 and N.
 #
 #
 # WRITTEN BY:   Jecsan Blanco
@@ -14,7 +14,7 @@
 # ************************************************
             org    0x80
 N:          db     10           # your program should work for arbitrary positive values
-                                # <???> is the largest value of N that will not cause overflow
+                                # 22 is the largest value of N that will not cause overflow
 SumOdd:     bss    1
 SumEven:    bss    1
 SumAll:     bss    1
@@ -23,6 +23,34 @@ SumAll:     bss    1
 # Code Segment
 # ************************************************
             org    0x00
-main:     
+main:      
+            load   R0, 0       # used to compare against N
+            load   R1,-1       # const -1
+            load   R2,1
 
+            load   R3,[N]      # counter
+            
+            xor    R4,R4,R4    # t
+
+            xor    RA,RA,RA    # Sum Odd
+            xor    RB,RB,RB    # Sum Even
+            xor    RC,RC,RC    # Sum All
+
+while:      jmpeq  R3=R0,end   # check for zero as we are counting down.
+            and    R4,R2,R3    # check for even or odd
+            
+if:         jmpeq  R4=R0,even  # is even
+
+odd:        add    RA,RA,R3    # odd
+            jmp    cont
+                                  
+even:       add    RB,RB,R3    # even  
+
+cont:       add    R3,R3,R1    # N--
+            jmp    while
+end: 
+            add    RC,RA,RB
+            store  [SumOdd],RA
+            store  [SumEven],RB
+            store  [SumAll], RC
             halt
