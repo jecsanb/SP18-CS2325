@@ -1,0 +1,81 @@
+# ********************************************************
+# FILE:  lab03.wall
+#
+# PURPOSE:  This program is designed to process an
+#           array in three different ways.
+#
+#           1) First sum all N elements in the array
+#              and store the sum in Sum1
+#           2) Negate all the elements in the array
+#           3) Sum the negated elements in the array
+#              and store the sum in Sum2
+#
+# PROGRAMMER:  H. Paul haiduk
+#
+# DATE: 01/31/2018
+#
+# ********************************************************
+
+            sip   main
+# ********************************************************
+# Data segment
+# ********************************************************
+            org   0x00
+Numbers:    db    0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08
+            db    0x09,0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,0x80
+N:          db    0x10
+Sum1:       bss   1
+Sum2:       bss   1
+
+# ********************************************************
+# Code segment
+# ********************************************************
+            org  0x40
+main:
+            load  R1,1           # constant 1
+            xor   R2,R2,R2       # R2 will hold index
+                                 # R3 will hold pointer 
+                                 #   into the array
+
+
+            load  R0,[N]
+            xor   R5,R5,R5       # set sum to 0
+            load  R3,Numbers     # address of numbers
+loop1:
+            jmpEQ R2=R0,endLoop1
+            iload R4,[R3]
+            add   R5,R5,R4
+            add   R2,R2,R1       # index += 1
+            add   R3,R3,R1
+            jmp   loop1
+endLoop1:   store [Sum1],R5
+
+            xor   R2,R2,R2       # index = 0
+            load  R3,Numbers
+            load  R5,0xFF
+loop2:      
+            jmpEQ R2=R0,endLoop2
+            iload R4,[R3]
+            xor   R4,R4,R5
+            add   R4,R4,R1
+            istore [R3],R4       # Numbers[index] = -Numbers[index]
+            add   R3,R3,R1
+            add   R2,R2,R1
+            jmp   loop2
+endLoop2:
+            
+            xor   R2,R2,R2       # index = 0
+            load  R3,Numbers
+            xor   R5,R5,R5
+loop3:
+            jmpEQ R2=R0,endLoop3
+            iload R4,[R3]
+            add   R5,R5,R4
+            add   R2,R2,R1
+            add   R3,R3,R1
+            jmp   loop3
+endLoop3:   store [Sum2],R5
+
+            halt
+
+            

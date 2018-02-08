@@ -1,0 +1,53 @@
+# ********************************************************
+# FILE:  string.wall
+#
+# PURPOSE:  This program is designed to process a
+#           string (an array of bytes) to be
+#           interpreted as ASCII characters to be
+#           displayed on the console.
+#
+#           Before the characters are displayed, 
+#           lower-case alphabetic characters are
+#           upper-cased and then displayed.
+#
+# ********************************************************
+
+            sip   main
+# ********************************************************
+# Data segment
+# ********************************************************
+            org   0x60
+message:    db    "Assembler  is  fun !?",0
+
+
+# ********************************************************
+# Code segment
+# ********************************************************
+            org  0x10
+main:
+            xor   R0,R0,R0       # comparand set to 0
+            load  R1,1           # constant 1
+            load  R2,0x61        # constant 'a'
+            load  R3,0x7A        # constant 'z'
+            load  R4,0x20        # used to toggle up/low case bit
+            load  RA,message     # ptr = message
+            iload RB,[RA]        # ch = *ptr
+while:
+            jmpEQ RB=R0,endLoop
+            push  R0             # save R0 on the stack
+            move  R0,RB          # set comparand R0 to ch
+if:         jmpLT R2<R0,testZ    # 'a' <= ch
+            jmpEQ R2=R0,testZ
+            jmp   NoUpCase
+testZ:      move  R0,R3          # set comparand R0 to 'z'
+            jmpLt RB<R0,upCase   # ch <= 'z'
+            jmpEQ RB=R0,upCase
+NoUpCase:   move  RF,RB          # copy ch to display reg
+            jmp   endIf
+upCase:     xor   RF,RB,R4
+endIf:      add   RA,RA,R1       # ptr += 1
+            iload RB,[RA]
+            pop   R0             # restore R0
+            jmp   while
+
+endLoop:    halt

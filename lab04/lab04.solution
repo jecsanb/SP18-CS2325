@@ -1,0 +1,70 @@
+# *****************************************************************************************
+# FILE:         lab04.txt
+# PURPOSE:      Calculate the sum of all the even integers in the range between 0 and N
+#               as well as the sum of all the odd integers in the range between 0 and N. 
+#               Note that if we then add these two sums together, we will have a value that
+#               is equal to the sum of all the integers between 0 and N.  
+#
+#               SumOdd will hold sum of the odd numbers.  SumEven will hold sum of the even
+#               numbers. SumAll holds the sum of SumOdd and SumEven.
+#                
+#               Implementation provided here demonstrates strict adherence to implementation
+#               of the classic while control structure.  Implementation also demonstrates
+#               usage of the EQU pseudo-op to enhance program readability and maintainability.
+#
+#
+# WRITTEN BY:   H. Paul Haiduk
+# DATE:         02/06/2018
+#*****************************************************************************************          
+
+            sip    main         # set initial IP to address main
+            org    0x80
+N:          db     15           # program works for arbitrary positive values <= 15
+                                # 15 is the largest value of N that will not cause overflow
+SumOdd:     bss    1
+SumEven:    bss    1
+SumAll:     bss    1
+
+SumEvenR:   equ    RA           # carry SumEven in RA
+SumOddR:    equ    RB           # carry SumOdd in RB\
+i:          equ    R3           # carry i in R3
+temp:       equ    R5
+
+            org    0x00
+main:     
+            load    R1,1
+            load    R2,2
+            load    R0,[N]
+            xor     SumEvenR,SumEvenR,SumEvenR
+            xor     SumOddR,SumOddR,SumOddR
+            load    i,1         # i <- 1
+loop:
+            # while i <= N
+            jmpLT   i<R0,continueLoop
+            jmpEQ   i=R0,continueLoop
+            jmp     endLoop
+continueLoop:
+            push    R0
+      # or  move    R9,R0
+            move    temp,i
+            and     temp,temp,R1         # extract low-order bit
+            move    R0,temp
+            jmpEq   R1=R0, addOdd        # If i odd
+            add     SumEvenR,SumEvenR,i  # Sum += i
+            jmp     loopIncrement
+addOdd:     add     SumOddR,SumOddR,i
+loopIncrement:
+            add     i,i,R1               # i += 1
+            pop     R0
+      # or  move    R0,R9
+            jmp     loop
+endLoop: 
+            store   [SumOdd],SumOddR
+            store   [SumEven],SumEvenR
+
+            add     temp,SumOddR,SumEvenR
+            store   [SumAll],temp
+            halt
+
+            
+            
