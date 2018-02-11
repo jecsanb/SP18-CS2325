@@ -16,28 +16,30 @@ Array2Sum:  bss    1
 SumAll:     bss    1
 
 ONE:        equ    R1
+ArrayAdrs:  equ    R2
+ArrayLen:   equ    R4
+ALLONES:    equ    R9            
 Answer:     equ    RA
-ArrayLen:   equ    R3
-ALLONE:     equ    R9            
-
 # **************************************************************
 
 # **************************************************************
 #   CODE SEGMENT
             org    0x00
 main:   # set up constants
-        load   R1,1            # constant 1
-        load   ALLONE,0XFF     # bit toggle mask
+        load   R1,1             # constant 1
+        load   ALLONES,0XFF     # bit toggle mask
 
         load   R2,Array1
         load   R3,Array1End      
         
-        xor    R2,R2,ALLONE    # turn array1's address negative  
-        add    R2,R2,ONE
-      
-        add    ArrayLen,R2,R3  
-
+        xor    R4,R2,ALLONES     # turn array1's address negative  
+        add    R4,R4,ONE
+        add    ArrayLen,R4,R3    
         
+        push   ArrayLen
+        push   ArrayAdrs
+        call   sumArray
+ 
         halt
 
 # **************************************************************
@@ -52,11 +54,33 @@ main:   # set up constants
 # RETURN VALUE:      sum returned in RA
 #
 # **************************************************************
+ONE:        equ    R1
+ArrayAdrs:  equ    R2
+ArrayLen:   equ    R4           
+Answer:     equ    RA
+
 sumArray:
         push   RBP
         move   RBP,RSP
-
+        
+       
 # student code goes here
+        push   R0           #save callers state
+        push   ONE
+        push   ArrayAdrs
+        push   ArrayLen
+        push   Answer
+
+        load   ONE,1
+        rload  ArrayAdrs, 0x02[RBP]
+        rload  ArrayLen,0x03[RBP] 
+        
+        load   R0,ArrayLen
+
+while:  jmpeq  
+
+
+end:
 
         move   RSP,RBP
         pop    RBP
