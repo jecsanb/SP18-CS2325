@@ -39,6 +39,7 @@ main:   # set up constants
         push   ArrayLen
         push   ArrayAdrs
         call   sumArray
+        store  [Array1Sum],Answer 
  
         halt
 
@@ -56,7 +57,9 @@ main:   # set up constants
 # **************************************************************
 ONE:        equ    R1
 ArrayAdrs:  equ    R2
-ArrayLen:   equ    R4           
+ArrayLen:   equ    R3  
+i:          equ    R4
+t:          equ    R5         
 Answer:     equ    RA
 
 sumArray:
@@ -69,18 +72,33 @@ sumArray:
         push   ONE
         push   ArrayAdrs
         push   ArrayLen
-        push   Answer
+        Push   i
+        push   t
 
         load   ONE,1
         rload  ArrayAdrs, 0x02[RBP]
         rload  ArrayLen,0x03[RBP] 
         
-        load   R0,ArrayLen
+        move   r0,ArrayLen
 
-while:  jmpeq  
+        xor    i,i,i
+        xor    Answer,Answer,Answer
 
-
+while:  jmpeq  i=R0,end
+        iload   t,[ArrayAdrs]
+        add     Answer,Answer,t
+   
+        add    i,i,ONE                       #i++
+        add    ArrayAdrs,ArrayAdrs,ONE       #move to next num
+        jmp    while
 end:
+       
+        pop    t
+        pop    i
+        pop    ArrayLen
+        pop    ArrayAdrs
+        pop    ONE
+        pop    R0
 
         move   RSP,RBP
         pop    RBP
