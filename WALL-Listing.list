@@ -34,7 +34,7 @@ C0                              16    SumAll:     bss    1
                                 28   main:   # set up constants
 00          21 01               29            load   R1,1             # constant 1
 02          29 FF               30            load   ALLONES,0XFF     # bit toggle mask
-                                31   
+                                31           #Array 1
 04          22 A0               32            load   R2,Array1
 06          23 A7               33            load   R3,Array1End      
                                 34           
@@ -44,75 +44,91 @@ C0                              16    SumAll:     bss    1
                                 38           
 0E          64 30               39            push   ArrayLen
 10          64 20               40            push   ArrayAdrs
-12          60 18               41            call   sumArray
-                                42    
-                                43           
-14          3A A7               44            store  [Array1Sum],Answer 
-                                45    
-16          C0 00               46            halt
-                                47   
-                                48   # **************************************************************
-                                49   # sumArray
-                                50   #
-                                51   # PURPOSE:  iterate and sum over all k elements of an array
-                                52   #
-                                53   # CALLING SEQUENCE:  PUSH address of 0th element of array
-                                54   #                    PUSH value of number of elements in array
-                                55   #                    CALL sumArray
-                                56   #
-                                57   # RETURN VALUE:      sum returned in RA
-                                58   #
-                                59   # **************************************************************
-                                60   ONE:        equ    R1
-                                61   ArrayAdrs:  equ    R2
-                                62   ArrayLen:   equ    R3  
-                                63   i:          equ    R4
-                                64   t:          equ    R5         
-                                65   Answer:     equ    RA
-                                66   
-                                67   sumArray:
-18          64 D0               68            push   RBP
-1A          D2 DE               69            move   RBP,RSP
-                                70           
-                                71          
-                                72   # student code goes here
-1C          64 00               73            push   R0           #save callers state
-1E          64 10               74            push   ONE
-20          64 20               75            push   ArrayAdrs
-22          64 30               76            push   ArrayLen
-24          64 40               77            Push   i
-26          64 50               78            push   t
-                                79   
-28          21 01               80            load   ONE,1
-2A          42 2D               81            rload  ArrayAdrs, 0x02[RBP]
-2C          43 3D               82            rload  ArrayLen,0x03[RBP] 
-                                83           
-2E          D2 03               84            move   r0,ArrayLen
-                                85   
-30          94 44               86            xor    i,i,i
-32          9A AA               87            xor    Answer,Answer,Answer
-                                88   
-34          B4 40               89    while:  jmpeq  i=R0,end
-36          D0 52               90            iload   t,[ArrayAdrs]
-38          5A A5               91            add     Answer,Answer,t
-                                92      
-3A          54 41               93            add    i,i,ONE                       #i++
-3C          52 21               94            add    ArrayAdrs,ArrayAdrs,ONE       #move to next num
-3E          B0 34               95            jmp    while
-                                96   end:
-                                97          
-40          65 50               98            pop    t
-42          65 40               99            pop    i
-44          65 30              100            pop    ArrayLen
-46          65 20              101            pop    ArrayAdrs
-48          65 10              102            pop    ONE
-4A          65 00              103            pop    R0
+12          60 32               41            call   sumArray
+14          3A A7               42            store  [Array1Sum],Answer 
+                                43   
+                                44           #Array2
+16          22 B0               45            load   R2,Array2
+18          23 B8               46            load   R3,Array2End      
+                                47           
+1A          94 29               48            xor    R4,R2,ALLONES     # turn array2's address negative  
+1C          54 41               49            add    R4,R4,ONE
+1E          53 43               50            add    ArrayLen,R4,R3    # get the array length 
+                                51           
+20          64 30               52            push   ArrayLen        
+22          64 20               53            push   ArrayAdrs
+24          60 32               54            call   sumArray
+26          3A B8               55            store  [Array2Sum],Answer
+                                56    
+                                57           #sum all
+28          11 A7               58            load  R1,[Array1Sum]
+2A          12 B8               59            load  R2,[Array2Sum]
+2C          5A 12               60            add    RA,R1,R2
+2E          3A C0               61            store  [SumAll],RA   
+30          C0 00               62            halt
+                                63   
+                                64   # **************************************************************
+                                65   # sumArray
+                                66   #
+                                67   # PURPOSE:  iterate and sum over all k elements of an array
+                                68   #
+                                69   # CALLING SEQUENCE:  PUSH address of 0th element of array
+                                70   #                    PUSH value of number of elements in array
+                                71   #                    CALL sumArray
+                                72   #
+                                73   # RETURN VALUE:      sum returned in RA
+                                74   #
+                                75   # **************************************************************
+                                76   ONE:        equ    R1
+                                77   ArrayAdrs:  equ    R2
+                                78   ArrayLen:   equ    R3  
+                                79   i:          equ    R4
+                                80   t:          equ    R5         
+                                81   Answer:     equ    RA
+                                82   
+                                83   sumArray:
+32          64 D0               84            push   RBP
+34          D2 DE               85            move   RBP,RSP
+                                86           
+                                87          
+                                88   # student code goes here
+36          64 00               89            push   R0           #save callers state
+38          64 10               90            push   ONE
+3A          64 20               91            push   ArrayAdrs
+3C          64 30               92            push   ArrayLen
+3E          64 40               93            Push   i
+40          64 50               94            push   t
+                                95   
+42          21 01               96            load   ONE,1
+44          42 2D               97            rload  ArrayAdrs, 0x02[RBP]
+46          43 3D               98            rload  ArrayLen,0x03[RBP] 
+                                99           
+48          D2 03              100            move   r0,ArrayLen
+                               101   
+4A          94 44              102            xor    i,i,i
+4C          9A AA              103            xor    Answer,Answer,Answer
                                104   
-4C          D2 ED              105            move   RSP,RBP
-4E          65 D0              106            pop    RBP
-50          61 03              107            ret    2
-                               108    
-                               109    # **************************************************************
+4E          B4 5A              105    while:  jmpeq  i=R0,end
+50          D0 52              106            iload   t,[ArrayAdrs]
+52          5A A5              107            add     Answer,Answer,t
+                               108      
+54          54 41              109            add    i,i,ONE                       #i++
+56          52 21              110            add    ArrayAdrs,ArrayAdrs,ONE       #move to next num
+58          B0 4E              111            jmp    while
+                               112   end:
+                               113          
+5A          65 50              114            pop    t
+5C          65 40              115            pop    i
+5E          65 30              116            pop    ArrayLen
+60          65 20              117            pop    ArrayAdrs
+62          65 10              118            pop    ONE
+64          65 00              119            pop    R0
+                               120   
+66          D2 ED              121            move   RSP,RBP
+68          65 D0              122            pop    RBP
+6A          61 03              123            ret    2
+                               124    
+                               125    # **************************************************************
 
 
 ***************** WALL Cross-Reference Listing *******************
@@ -129,26 +145,26 @@ Ref_line: Referenced line number(s) of a label in the source code.
 Labels           Mem_Loc     Def_Line     Ref_line
 Array1              A0           8        32             
 Array1End           A7           9        33             
-Array1Sum           A7          10        44             
-Array2              B0          12                       
-Array2End           B8          13                       
-Array2Sum           B8          14                       
-SumAll              C0          16                       
-ONE                 R1          18        36  74  80  93  94  102  
-ArrayAdrs           R2          19        40  75  81  90  94  94  101  
-ArrayLen            R3          20        37  39  76  82  84  100  
-ALLONES             R9          21        30  35         
-Answer              RA          22        44  87  87  87  91  91  
+Array1Sum           A7          10        42  58         
+Array2              B0          12        45             
+Array2End           B8          13        46             
+Array2Sum           B8          14        55  59         
+SumAll              C0          16        61             
+ONE                 R1          18        36  49  90  96  109  110  118  
+ArrayAdrs           R2          19        40  53  91  97  106  110  110  117  
+ArrayLen            R3          20        37  39  50  52  92  98  100  116  
+ALLONES             R9          21        30  35  48     
+Answer              RA          22        42  55  103  103  103  107  107  
 main                00          28                       
-ONE                 R1          60        36  74  80  93  94  102  
-ArrayAdrs           R2          61        40  75  81  90  94  94  101  
-ArrayLen            R3          62        37  39  76  82  84  100  
-i                   R4          63        77  86  86  86  93  93  99  
-t                   R5          64        78  90  91  98  
-Answer              RA          65        44  87  87  87  91  91  
-sumArray            18          67        41             
-while               34          89        95             
-end                 40          96        89             
+ONE                 R1          76        36  49  90  96  109  110  118  
+ArrayAdrs           R2          77        40  53  91  97  106  110  110  117  
+ArrayLen            R3          78        37  39  50  52  92  98  100  116  
+i                   R4          79        93  102  102  102  109  109  115  
+t                   R5          80        94  106  107  114  
+Answer              RA          81        42  55  103  103  103  107  107  
+sumArray            32          83        41  54         
+while               4E         105        111            
+end                 5A         112        105            
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Created date: 02/11/2018 11:45:56 AM
+Created date: 02/11/2018 11:56:08 AM

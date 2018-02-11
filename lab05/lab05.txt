@@ -28,7 +28,7 @@ Answer:     equ    RA
 main:   # set up constants
         load   R1,1             # constant 1
         load   ALLONES,0XFF     # bit toggle mask
-
+        #Array 1
         load   R2,Array1
         load   R3,Array1End      
         
@@ -40,7 +40,25 @@ main:   # set up constants
         push   ArrayAdrs
         call   sumArray
         store  [Array1Sum],Answer 
+
+        #Array2
+        load   R2,Array2
+        load   R3,Array2End      
+        
+        xor    R4,R2,ALLONES     # turn array2's address negative  
+        add    R4,R4,ONE
+        add    ArrayLen,R4,R3    # get the array length 
+        
+        push   ArrayLen        
+        push   ArrayAdrs
+        call   sumArray
+        store  [Array2Sum],Answer
  
+        #sum all
+        load  R1,[Array1Sum]
+        load  R2,[Array2Sum]
+        add    RA,R1,R2
+        store  [SumAll],RA   
         halt
 
 # **************************************************************
