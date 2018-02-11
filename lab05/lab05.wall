@@ -15,14 +15,29 @@ Array2Sum:  bss    1
             org    0XC0
 SumAll:     bss    1
 
+ONE:        equ    R1
+Answer:     equ    RA
+ArrayLen:   equ    R3
+ALLONE:     equ    R9            
+
 # **************************************************************
 
 # **************************************************************
 #   CODE SEGMENT
             org    0x00
 main:   # set up constants
-        load   R1,1        # constant 1
+        load   R1,1            # constant 1
+        load   ALLONE,0XFF     # bit toggle mask
+
+        load   R2,Array1
+        load   R3,Array1End      
+        
+        xor    R2,R2,ALLONE    # turn array1's address negative  
+        add    R2,R2,ONE
       
+        add    ArrayLen,R2,R3  
+
+        
         halt
 
 # **************************************************************
