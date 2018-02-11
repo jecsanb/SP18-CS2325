@@ -1,3 +1,21 @@
+﻿
+# *****************************************************************************************
+# FILE:         lab05.txt
+# PURPOSE:      Calculate the sum of all the members of Array1 length of N,
+#               as well as the sum of all the members of Array2 length of N.
+#
+#               Array1Sum  will hold sum of Array1's members and Array2Sum the sum of Array2's members.
+#               SumAll holds the sum of Array1Sum and Array2Sum.
+#
+#               The sum of the members of the array and the sum of the two arrays may not exceed
+#               254 otherwise overflow occur
+#
+#
+#
+# WRITTEN BY:   Jecsan Blanco
+# DATE:         02/11/2018
+#*****************************************************************************************   
+#
 # **************************************************************
 
             sip    main         # set initial IP to address main
@@ -55,8 +73,8 @@ main:   # set up constants
         store  [Array2Sum],Answer
  
         #sum all
-        load  R1,[Array1Sum]
-        load  R2,[Array2Sum]
+        load   R1,[Array1Sum]
+        load   R2,[Array2Sum]
         add    RA,R1,R2
         store  [SumAll],RA   
         halt
@@ -65,6 +83,7 @@ main:   # set up constants
 # sumArray
 #
 # PURPOSE:  iterate and sum over all k elements of an array
+#           The callers registers are preserved
 #
 # CALLING SEQUENCE:  PUSH address of 0th element of array
 #                    PUSH value of number of elements in array
@@ -86,7 +105,7 @@ sumArray:
         
        
 # student code goes here
-        push   R0           #save callers state
+        push   R0                            # save callers state
         push   ONE
         push   ArrayAdrs
         push   ArrayLen
@@ -97,21 +116,21 @@ sumArray:
         rload  ArrayAdrs, 0x02[RBP]
         rload  ArrayLen,0x03[RBP] 
         
-        move   r0,ArrayLen
+        move    r0,ArrayLen
 
-        xor    i,i,i
-        xor    Answer,Answer,Answer
+        xor     i,i,i
+        xor     Answer,Answer,Answer
 
-while:  jmpeq  i=R0,end
+while:  jmpeq   i=R0,end
         iload   t,[ArrayAdrs]
         add     Answer,Answer,t
    
-        add    i,i,ONE                       #i++
-        add    ArrayAdrs,ArrayAdrs,ONE       #move to next num
-        jmp    while
+        add     i,i,ONE                       # i++
+        add     ArrayAdrs,ArrayAdrs,ONE       # move to next num
+        jmp     while
 end:
        
-        pop    t
+        pop    t                              # restore callers state
         pop    i
         pop    ArrayLen
         pop    ArrayAdrs
@@ -121,5 +140,3 @@ end:
         move   RSP,RBP
         pop    RBP
         ret    2
- 
- # **************************************************************
