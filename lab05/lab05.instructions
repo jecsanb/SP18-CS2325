@@ -1,0 +1,9 @@
+Objective:  Provide students with an opportunity to demonstrate an ability to develop an assembly language function that takes an array reference and value parameters and which returns the sum of all the elements in the array.
+
+The Problem:  Given the partial WALL machine assembler program below, complete it to accomplish the stated task.  The completed program must contain an appropriate commentary prologue.  NOTE:  You must provide a commentary prologue as you have with previous labs.
+
+Constraints:  Number of elements for each array MUST be dynamically calculated based on the code provided.  Hard coding the number of elements is not acceptable.  NOTE that the code provided may not be modified -- it must be used as is.  Obviously, you will add code.  Also, when your program reaches the halt instruction, both the base pointer and the stack pointer should be restored to their state at program start up. 
+
+Submission:   Submit the file named lab05.txt.  You may submit up to three times prior to due date/time.
+
+

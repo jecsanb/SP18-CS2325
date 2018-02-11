@@ -1,0 +1,50 @@
+# **************************************************************
+
+            sip    main         # set initial IP to address main
+          
+# **************************************************************
+#   DATA SEGMENT
+            org    0xA0
+Array1:     db     2,4,6,8,10,12,14
+Array1End:
+Array1Sum:  bss    1
+            org    0XB0
+Array2:     db     1,3,5,7,9,11,13,15
+Array2End:
+Array2Sum:  bss    1
+            org    0XC0
+SumAll:     bss    1
+
+# **************************************************************
+
+# **************************************************************
+#   CODE SEGMENT
+            org    0x00
+main:   # set up constants
+        load   R1,1        # constant 1
+      
+        halt
+
+# **************************************************************
+# sumArray
+#
+# PURPOSE:  iterate and sum over all k elements of an array
+#
+# CALLING SEQUENCE:  PUSH address of 0th element of array
+#                    PUSH value of number of elements in array
+#                    CALL sumArray
+#
+# RETURN VALUE:      sum returned in RA
+#
+# **************************************************************
+sumArray:
+        push   RBP
+        move   RBP,RSP
+
+# student code goes here
+
+        move   RSP,RBP
+        pop    RBP
+        ret    2
+ 
+ # **************************************************************
