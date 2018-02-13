@@ -1,0 +1,16 @@
+Objective: Put all concepts together. Give students an opportunity to demonstrate complete understanding
+of concepts presented so far.  The program is to add two numbers together and store the sum. However, unlike previous programs, the numbers are stored as ASCII strings that must be converted into binary.
+
+Task:  Complete the code below.  Success is when your program stores the sum 0XFF or 255 in Sum.
+
+Submission:  Submit only the file lab06.txt which you have hard linked to lab06.wall.
+NOTE that  a flower box style comment at the top of your program should document what the program is about.
+
+The Skeleton:  You must not alter the skeleton.  The value loaded in R0 is for checking purposes to ensure that
+all routines preserve the register.  Remember that R0 is required for all comparisons.  The functions called by main MUST preserve its value.
+
+Constraints:  Your main program may use registers R1-R5 without preserving their value.  R1 is assumed always to have constant 1 stored in it.   On the other hand, all routines may use registers R6-RB.  If they use one of the main program registers or registers used by other routines, they must be preserved and restored on the stack.  If the main program uses any of R6-RB, those values should be preserved on the stack before a procedure call and then restored upon return from the call (push/pop).
+
+Also, the main program MUST call the function ASCII_To_Binary to convert the strings to binary.  ASCII_To_Binary MUST call the function Mult10 to accomplish multiplication.
+
+Algorithms for both functions will be discussed in class.

@@ -1,0 +1,17 @@
+                sip    main
+# Document here
+                org    0x20
+Num1Str:        db     "127",0
+Num1:           bss    1
+Num2Str:        db     "128",0
+Num2:           bss    1
+Sum:            bss    1
+
+
+                org    0x00
+main:
+                load   R0,0xAB
+                load   R1,1
+# complete
+               
+                hal
