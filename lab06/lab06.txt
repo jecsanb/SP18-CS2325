@@ -1,5 +1,13 @@
+#********************************
+# Lab06.txt
+# Author:  Jecsan Blanco
+# Version: 02/13/18
+#
+#********************************
                 sip    main
-# Document here
+#********************************
+# Data-segment
+#********************************
                 org    0x20
 Num1Str:        db     "127",0
 Num1:           bss    1
@@ -7,6 +15,9 @@ Num2Str:        db     "128",0
 Num2:           bss    1
 Sum:            bss    1
 
+#********************************
+# Code-segment
+#********************************
 
                 org    0x00
 main:
@@ -14,4 +25,16 @@ main:
                 load   R1,1
 # complete
                
-                hal
+                halt
+        
+
+#************************************************
+# ASCII_To_Binary
+# Decodes then ASCII string of numbers in to its 
+# computable int representation.
+#
+# Call sequence:
+#               PUSH the address of the string.
+#               CALL ASCII_To_Binary
+#               RA <-  Result 
+#************************************************
