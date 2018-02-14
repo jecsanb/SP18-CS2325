@@ -24,7 +24,10 @@ main:
                 load   R0,0xAB
                 load   R1,1
 # complete
-               
+               load   r2,Num1Str
+                push r2
+                push R1
+                call    ASCII_To_Binary
                 halt
         
 
@@ -42,7 +45,9 @@ main:
 #************************************************
                org    0x30
 ASCII_To_Binary:
+ONE:            equ   R1
 strAdrs:        equ   R6
+char:           equ   R7
 
                 push  RBP        #store caller state
                 move  RBP,RSP
@@ -50,10 +55,13 @@ strAdrs:        equ   R6
                 push  R0         
 
                 xor   R0,R0,R0    #zero R0
-                rload strAdrs,2[RBP]
+                rload strAdrs,3[RBP]
 
-while:          jmpeq 
-
+while:          jmpeq strAdrs=R0  #check if there are more chars
+                                
+                add   strAdrs,strAdrs,ONE
+                jmp   while
+end:
 
                 pop   R0        #restore caller state
                 pop   RBP
