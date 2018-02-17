@@ -24,9 +24,8 @@ main:
                 load   R0,0xAB
                 load   R1,1
 # complete
-               load   r2,Num1Str
-                push r2
-                push R1
+                load   r2,Num1Str
+                push   r2
                 call    ASCII_To_Binary
                 halt
         
@@ -48,18 +47,24 @@ ASCII_To_Binary:
 ONE:            equ   R1
 strAdrs:        equ   R6
 char:           equ   R7
+mask:           equ   R8
+num:            equ   R9
 
-                push  RBP        #store caller state
+                push  RBP         #store caller state
                 move  RBP,RSP
-                move  RBP,RSP
+                rload strAdrs,2[RBP]
+                load  mask,0x0F    #mask to extract number
+
                 push  R0         
 
-                xor   R0,R0,R0    #zero R0
-                rload strAdrs,3[RBP]
-
-while:          jmpeq strAdrs=R0  #check if there are more chars
-                                
+                xor   R0,R0,R0     #zero R0
+               
+                iload char,[strAdrs]
+while:          jmpeq char=R0,end  #check if there are more chars
+                and   num,char,mask
+          
                 add   strAdrs,strAdrs,ONE
+                iload char,[strAdrs]
                 jmp   while
 end:
 
