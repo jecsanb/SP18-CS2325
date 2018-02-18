@@ -1,7 +1,8 @@
 #********************************
 # Lab06.txt
 # Author:  Jecsan Blanco
-# Version: 02/13/18
+# Version: 02/18/18
+#
 #
 #********************************
                 sip    main
@@ -56,7 +57,7 @@ main:
 #               CALL ASCII_To_Binary
 #               RA <-  Result 
 #
-#               Registers R1 - R6 are used and not preserved.
+#               Registers R1 - R5 are used and not preserved.
 #************************************************
                org    0x30
 ASCII_To_Binary:
@@ -88,32 +89,58 @@ while:          jmpeq char=R0,end  #check if there are more chars
                 iload char,[strAdrs]
                 jmp   while
 end:        
-                #1st digit * 10 
+                #1st digit * 1 
                 pop   num
                 add   answer,answer,num
                
                 # 2nd digit * 10
-                pop   num 
-                move  temp,num
-                sl    num,3
-                sl    temp,1
-                add   num,num,temp
-                add   answer,answer,num
-               
+                move  temp,answer
+                call  Mult10
+                add   answer,answer,temp
+                
                 #3rd digit * 100
-                pop   num
-                move  temp,num
-                sl    num,3
-                sl    temp,1
-                add   num,num,temp
-                move  temp,num
-                sl    num,3
-                sl    temp,1
-                add   num,num,temp
-                add   answer,answer,num
+                move  temp,answer
+                call  Mult10
+                push  answer
+                call  Mult10
+                add   answer,answer,temp
                
                 pop   R6
                 pop   R0        #restore caller state
+                pop   RBP
+                ret   1
+
+#************************************************
+# Mult10
+# N <- N * 10 
+# Call sequence:
+#               PUSH N
+#               CALL  Mult10
+#               RA <-  Result 
+#
+#               Registers R1 - R5 are used and not preserved.
+Mult10:
+num:            equ   R5
+temp:           equ   R6
+answer:         equ   RA
+
+                push  RBP         #store caller state
+                move  RBP,RSP
+                push  num
+                push  temp 
+
+                xor  answer,answer,answer
+
+                rload num,2[RBP]
+                move  temp,num
+           
+                sl    num,3
+                sl    temp,1
+                add   answer,num,temp
+
+
+                pop   temp
+                pop   num
                 pop   RBP
                 ret   1
 
