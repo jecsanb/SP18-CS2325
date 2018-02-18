@@ -26,7 +26,23 @@ main:
 # complete
                 load   r2,Num1Str
                 push   r2
-                call    ASCII_To_Binary
+                call   ASCII_To_Binary
+                store  [Num1],RA
+                move   RB,RA
+
+                load   r2,Num2Str
+                push   r2
+                call   ASCII_To_Binary
+                store  [Num2],RA
+
+                add    RA,RA,RB
+                store  [Sum],RA
+                
+                
+
+
+
+
                 halt
         
 
@@ -40,34 +56,63 @@ main:
 #               CALL ASCII_To_Binary
 #               RA <-  Result 
 #
-#               Registers R6 - RB are used.
+#               Registers R1 - R6 are used and not preserved.
 #************************************************
                org    0x30
 ASCII_To_Binary:
 ONE:            equ   R1
-strAdrs:        equ   R6
-char:           equ   R7
-mask:           equ   R8
-num:            equ   R9
+strAdrs:        equ   R2
+char:           equ   R3
+mask:           equ   R4
+num:            equ   R5
+temp:           equ   R6
+answer:         equ   RA
 
                 push  RBP         #store caller state
                 move  RBP,RSP
                 rload strAdrs,2[RBP]
                 load  mask,0x0F    #mask to extract number
 
-                push  R0         
+                push  R0
+                push  R6         
 
                 xor   R0,R0,R0     #zero R0
+                xor   answer,answer,answer
                
                 iload char,[strAdrs]
+
 while:          jmpeq char=R0,end  #check if there are more chars
                 and   num,char,mask
-          
+                push  num
                 add   strAdrs,strAdrs,ONE
                 iload char,[strAdrs]
                 jmp   while
-end:
-
+end:        
+                #1st digit * 10 
+                pop   num
+                add   answer,answer,num
+               
+                # 2nd digit * 10
+                pop   num 
+                move  temp,num
+                sl    num,3
+                sl    temp,1
+                add   num,num,temp
+                add   answer,answer,num
+               
+                #3rd digit * 100
+                pop   num
+                move  temp,num
+                sl    num,3
+                sl    temp,1
+                add   num,num,temp
+                move  temp,num
+                sl    num,3
+                sl    temp,1
+                add   num,num,temp
+                add   answer,answer,num
+               
+                pop   R6
                 pop   R0        #restore caller state
                 pop   RBP
                 ret   1
