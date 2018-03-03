@@ -1,0 +1,164 @@
+
+LAB 07
+
+Objective:  This lab is a wrap up for the WALL experience.  It is designed to measure a comprehensive ability to put all concepts together into one final project.
+
+Submission:  Submit only a single file named LAB07.txt.  Submission herein is for failsafe backup in case you completely botch the git repository.  NOTE:  The last submission is the one that will be graded.
+
+The problem:  Complete those parts of the below program that are labeled STUDENT COMPLETE HERE.  DO NOT ALTER ANY OF THE CODE BELOW.
+
+                sip    main
+# **********************************************
+# FILE:  lab07.txt
+#
+# PURPOSE:  Perform a computation and displays
+#           results on console
+#
+# PROGRAMMERS: H. Paul Haiduk
+#                            <Team member #1>
+#                            <Team member #2>
+#
+# DATE:  Original version:   02/26/2018
+#        Completed version:  ??/??/????
+# **********************************************
+
+
+# **********************************************
+#       Data Declarations
+# **********************************************
+                org    0x20
+Number1:        db     127
+Number2:        db     128
+Sum:            bss    1
+Message:        db     "Sum is -> ",0
+
+
+# **********************************************
+#       Main Program
+# **********************************************
+                org    0x00
+main:
+                load   R0,0xAB
+                load   R1,1
+
+                load   R2,[Number1]
+                load   R3,[Number2]
+                add    R2,R2,R3
+                store  [Sum],R2
+
+                load   R3,Message
+                push   R3
+                call   PrintMessage
+                push   R2
+                call   PrintByte
+               
+                halt
+
+# **********************************************
+#       Functions/Procedures
+# **********************************************
+                org    0x30
+# ########################################################
+#
+#  Calling sequence:  push value to be multiplied
+#                     call Mult10
+#
+#  Return:    value*10 in RA
+#
+#  Registers Used: R6 and R7
+# 
+# ######################################################## 
+Mult10:        
+                push   RBP
+                move   RBP,RSP
+
+                rload  R6,2[RBP]
+
+
+# STUDENT COMPLETE HERE
+
+
+                move   RSP,RBP
+                pop    RBP
+                ret    1
+# ########################################################
+#
+#  Calling sequence:  push value to be divided
+#                     call DivU10
+#
+#  Return:    quotient in RA, remainder in RB
+#
+#  Registers Used: R6, R7, R8, and R9
+# 
+# ########################################################
+DivU10:
+                push   RBP
+                move   RBP,RSP
+                push   R0
+
+                rload  R6,2[RBP]
+
+
+# STUDENT COMPLETE HERE
+
+
+normalReturn:   pop    R0
+                move   RSP,RBP
+                pop    RBP
+                ret    1
+
+# ########################################################
+#
+#  Calling sequence:  push address of message
+#                     call printMessage
+#
+#  Return:    message displayed on console
+#
+#  Registers Used: R6, R7
+# 
+# ########################################################
+PrintMessage:
+                push   RBP
+                move   RBP,RSP
+                push   R0
+
+                rload  R6,2[RBP]
+                load   R0,0
+# STUDENT COMPLETE HERE
+
+msgReturn:      pop    R0
+                move   RSP,RBP
+                pop    RBP
+                ret    1
+# ########################################################
+#
+#  Calling sequence:  push value to be displayed
+#                     call PrintByte
+#
+#  Return:    displays value of a byte as
+#             ASCII characters on console -- RECURSIVELY
+#
+#  Registers Used:  R6 and R7
+# 
+# ########################################################
+PrintByte:
+                push   RBP
+                move   RBP,RSP
+                push   R0
+
+                rload  R6,2[RBP]
+                load   R0,10
+                jmpLT  R6<R0,singleDigit
+
+ # STUDENT COMPLETE HERE
+
+singleDigit:
+                pop    R0
+                load   R7,0x30
+                or     RF,R7,R6    # display ASCII of digit
+
+printReturn:
+                move   RSP,RBP
+                pop    RBP
+                ret    1
+:wq
