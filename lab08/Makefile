@@ -1,16 +1,18 @@
-#Makefile for lab 08
+#Created by Atef Yassine
+#Lab08 Makefile
 
-lab08:	main.o div10.o
-	gcc -gstabs -o lab08 main.o div10.o
+lab08	:	main.o	div10.o
+	gcc -gstabs+ -o lab08 main.o div10.o
+main.o	:	main.s
+	gcc -gstab+ -c main.s
+div10.o	:	div10.s
+	gcc -gstab+ -c div10.s
 
-main.o:	main.s
-	gcc -gstabs -c main.s
+listing	:	main.s	div10.s
+	gcc -c -gstabs+ -Wa,-alms,-L main.s > main.lst
+	gcc -c -gstabs+ -Wa,-alms,-L div10.s > div10.lst 
 
-div10.o: div10.s
-	gcc -gstabs -c div10.s
-
-run:	lab08
+run	:	lab08	
 	./lab08
-
-clean:
-	rm -f *.o lab08 *.swp
+clean	:
+	rm -f *.o *.lst lab08

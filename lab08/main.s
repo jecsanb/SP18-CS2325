@@ -1,45 +1,56 @@
-        .arch armv6
-        .fpu vfp
-        .text
+/********************************************************
+* TEAM:     04, Atef Yassine,Jecsan Blanco              *
+* LAB:      LAB08                                       *
+* VERSION:  03/29/2018                                  *
+* Purpose:  Implement the provided pythong code         *
+* in Assembly. The code divides the max int number N    *
+* continuously until N is 0.                            *
+*                                                       *
+********************************************************/
+	.arch armv6
+	.fpu vfp
+	.file	"main.s"
+
+        .data
+msg1:   .asciz   "The number is %d\n"
+        .align  2
+
+msg2:   .asciz   "The number div10 yields quotient %d and remainder %d\n"
+        .align  2
+
+fmt:    .asciz  "%d"
+        .align  2
+
+	.text
 	.align	2
 	.global	main
 	.type	main, %function
-
-	.align	2
-msg1:   .ascii	"The number is %d\012\000"
-	.space	2
-msg2:   .ascii	"The number div10 yields quotient %d and remainder %d\012\000"
-        .align  2
 main:
-        @r4 holds number
-        @r5 holds address of first message
-        @r6 holds address of second message
-
-	stmfd	sp!, {r4, r5, r6, lr}
-
-	@mvn	r4, #-2147483648   @ toggles all the bits of operand
-        mov     r4, #-1    @ a string of all 1 bits
-        lsr     R4, r4, #1 @ now becomes MAXINT
-	adr	r6, msg1 @ can be used rather than ldr since messages
-	adr	r5, msg2 @ are in the text section
+        STMFD   SP!, {LR}
+                                    @ R0 -- MAXINT for 32-bit int
+                                    @ number = (1 << 31) - 1 
+        MOV     R1, #1        
+        LSL     R1, #31
+        SUB     R1, #1
 while:
-	cmp	r4, #0
-        ble     endWhile
-	mov	r0, r6  @ address of message
-	mov	r1, r4  @ value of integer converted by %d
-	bl	printf
-	mov	r0, r4  @ argument to div10
-	bl	div10
-        @ r0 now holds quotient
-        @ r1 now holds remainder
-	mov	r4, r0  @ number = quotient
-        mov     r2, r1  @ 2nd argument to printf is remainder
-        mov     r1, r0  @ 1st argument to printf is quotient
-	mov	r0, r5  @ 0th argument to printf is address of format conversion string
-	bl	printf
-	bal	while
-endWhile:
-	mov	r0, #0  @ return code for the OS
+        PUSH    {R1} 
+        LDR     R0, =msg1
+        BL      printf
+        POP     {R0} 
 
-	ldmfd	sp!, {r4, r5, r6, pc}
+        BL      div10
+        MOV     R2, R1
+        MOV     R1, R0
+        PUSH    {R1}
+        LDR     R0, =msg2
+        BL      printf
+        POP     {R1}
 
+        CMP     R1, #0
+        BGT     while
+return:
+
+        LDMFD   SP!, {LR}
+        EOR     R0, R0, R0
+        MOV     PC,LR
+        .end
