@@ -1,0 +1,18 @@
+LAB 09
+Attached Files:
+File lab09-handout.tgz (564 B)
+Objective:  The purpose of this lab is to give students an opportunity to develop a working understanding of recursion with implementation of a recursive algorithm in ARM assembly language.  Ultimately, you are to translate the C language program reverse.c into ARM assembler.
+
+Resources:
+
+The first resource that students need for this assignment is a working understanding of the content of the text chapters 1 through 5.  Especially important is section 5.4.7 pp. 118-119 in discussion about automatic variables.
+The second resource is another archive of a C program that solves the problem and the required Makefile to build and execute the project.  That archive is attached.
+Submission: 
+
+The first part of the submission is a simple statement made here that the work has been completed and is available in your team repository on thor.
+The second part of the submission is the actual work as it will exist in your team repository on thor.
+Details:
+
+One team member, and one team member only, should set up the initial shared and bare git repository with the name lab09.  Details for so doing have been presented elsewhere and are not presented again.
+CAUTION -- contribution to your team is measured by whether you did your work on a computer that had been set up for marking your submissions as defined by git global configurations.  No matter how much you contributed, if your contribution is not shown by virtue of git logs showing that YOU actually did the work and staged, committed and pushed  the work, your contribution will be deemed to have been minimal or nonexistent.
+Your ARM assembler implementation of the reverse.c program should consist of, at minimum, the files main.s and reverseLine.s.  You may separate your work further into a third file named doReverse.s.  Of course, that means you will need to modify your Makefile.
